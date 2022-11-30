@@ -15,7 +15,7 @@ function App() {
       
     
   },[userId])
-  console.log(posts)
+  
   return (
     <>
       <Header userId = {userId} setUserId = {setUserId} />
