@@ -1,0 +1,19 @@
+header{
+    border: 1px solid black;
+    display: flex;
+    justify-content: space-between;
+    height: 30px;
+}
+
+.GetPosts,.GetTitles{
+    width:300px;
+    height: 300px;
+    overflow: scroll;
+}
+
+.GetPosts::before{
+    content: "Posts";
+}
+.GetTitles::before{
+    content: "Titles";
+}

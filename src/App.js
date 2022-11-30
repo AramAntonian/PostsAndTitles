@@ -1,24 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
-
+import Header from './components/Header.js'
+import PostAndTitles from './context/PostAndTitles.js'
+import GetPosts from './components/GetPosts.js'
+import GetTitles from './components/GetTitles.js'
+import {useState,useEffect} from "react"
+ 
 function App() {
+  const [userId,setUserId] = useState("")
+  const [posts,setPosts] = useState([])
+  
+  
+  useEffect(()=>{
+    if(userId !== "")
+      fetch(`https://jsonplaceholder.typicode.com/posts`).then(rep => rep.json()).then(repo => setPosts(repo.filter(el => el.userId === userId)))
+      
+    
+  },[userId])
+  console.log(posts)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Header userId = {userId} setUserId = {setUserId} />
+      <PostAndTitles.Provider value = {posts}>
+        <GetTitles />
+        <GetPosts />
+      </PostAndTitles.Provider>
+    </>
   );
 }
 
