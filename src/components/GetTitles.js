@@ -1,21 +1,24 @@
 import { useContext,  useMemo } from "react";
 import dataContext from "../context/PostAndTitles";
 
-function GetTitles(){
-    const data = useContext(dataContext)
+function GetTitles({handleShow}){
+    let data = useContext(dataContext)
+
+
+
 
     const getData = useMemo(()=> data.map((el)=>
-        <li key = {Math.random()}>{el.title}</li>
+        <li key = {el.key} id = {el.key} onClick = {el.handleShow}>{el.id}{ +el.id === 1? "st":+el.id === 2? "nd":+el.id === 3? "rd":"th"}  post</li>
     
     ),[data])
 
         return (
         
-        <ol className="GetTitles">
+        <ul className="GetTitles">
             {
                getData
             }
-        </ol>
+        </ul>
         )
 
 }
