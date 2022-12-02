@@ -1,6 +1,7 @@
 import {  useEffect, useMemo, useRef, useState } from "react"
 import './style.css'
 
+
 function Header({userId,setUserId}){
     const inputRef = useRef()
     const [data,setData] = useState([])
@@ -37,12 +38,13 @@ function Header({userId,setUserId}){
     )
     const hint= useMemo(()=>{
         if(data.length){
+            
             return [data[0].email,data[1].email]
         }
         else return ""
     }
     ,[data]
-    )
+    )   
 
 
     return (
