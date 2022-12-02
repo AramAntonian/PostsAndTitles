@@ -3,17 +3,33 @@ header{
     display: flex;
     justify-content: space-between;
     height: 30px;
+  
 }
 
 .GetPosts,.GetTitles{
     width:300px;
     height: 300px;
+    border:1px solid black;
+    padding: 5px auto;
     overflow: scroll;
+    margin-left: 10px;
 }
 
-.GetPosts::before{
+
+.GetTitles::before{
     content: "Posts";
 }
-.GetTitles::before{
-    content: "Titles";
+
+.hint{
+   margin-left: 1200px;
+
+}
+.hint::before{
+    content: "Emails ";
+    display:block;
+}
+
+
+.GetTitles li {
+    cursor: pointer;
 }
