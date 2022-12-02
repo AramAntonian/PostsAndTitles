@@ -1,11 +1,8 @@
 import { useContext,  useMemo } from "react";
 import dataContext from "../context/PostAndTitles";
 
-function GetTitles({handleShow}){
+function GetTitles(){
     let data = useContext(dataContext)
-
-
-
 
     const getData = useMemo(()=> data.map((el)=>
         <li key = {el.key} id = {el.key} onClick = {el.handleShow}>{el.id}{ +el.id === 1? "st":+el.id === 2? "nd":+el.id === 3? "rd":"th"}  post</li>
