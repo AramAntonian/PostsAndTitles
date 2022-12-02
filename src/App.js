@@ -29,6 +29,9 @@ function App() {
                   el.letShow = {
                       display:"block",
                   }
+              else el.letShow = {
+                display:"none",
+            }
               return el
           }))
       }
@@ -36,7 +39,7 @@ function App() {
       
     
   },[userId])
-  console.log(posts)
+
   return (
     <>
       <Header userId = {userId} setUserId = {setUserId} />
