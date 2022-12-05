@@ -1,21 +1,24 @@
-import { useContext,  useMemo } from "react";
-import dataContext from "../context/PostAndTitles";
+import {   useMemo } from "react";
+import { Link } from "react-router-dom";
+import {v4 as uuidv4} from "uuid"
 
-function GetTitles(){
-    let data = useContext(dataContext)
+
+function GetTitles({userId,data}){
+
+
 
     const getData = useMemo(()=> data.map((el)=>
-        <li key = {el.key} id = {el.key} onClick = {el.handleShow}>{el.id}{ +el.id === 1? "st":+el.id === 2? "nd":+el.id === 3? "rd":"th"}  post</li>
+        <><Link className="Links" key = {uuidv4} to = {`/posts/${el.id}`}><p>{el.id}{ +el.id === 1? "st":+el.id === 2? "nd":+el.id === 3? "rd":"th"}  post</p></Link></>
     
     ),[data])
-
+    
         return (
         
-        <ul className="GetTitles">
+        <div className="GetTitles">
             {
-               getData
+                userId? getData: ""
             }
-        </ul>
+        </div>
         )
 
 }
