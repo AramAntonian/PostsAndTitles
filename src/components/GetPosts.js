@@ -1,19 +1,17 @@
-import { useContext,  useMemo } from "react";
-import dataContext from "../context/PostAndTitles";
+import { Link, useParams } from "react-router-dom";
 
-function GetPosts(){
-    const data = useContext(dataContext)
-    const getData = useMemo(()=> data.map((el)=>
-    <li key = {el.key} style = {el.letShow} id = {el.key} >{el.id}{ +el.id === 1? "st":+el.id === 2? "nd":+el.id === 3? "rd":"th"}:{el.title}<ul key = {Math.random()}>{el.body}</ul></li>
 
-    ),[data])
- 
+function GetPosts({data}){
+    const {id} = useParams()
+    const elem = data.filter((el)=> +id === +el.id )[0]
+
         return (
-        <ol className="GetPosts">
-            {
-                getData
-            }
-        </ol>
+        <div className="GetPosts">
+            <p >{elem.title}</p>
+            <p>{elem.body}</p>
+
+        <Link to = "/posts" className="Links">Back to Posts</Link>    
+        </div>
     )
 
 }
