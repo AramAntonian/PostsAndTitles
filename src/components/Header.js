@@ -1,11 +1,14 @@
-import {  useEffect, useMemo, useRef, useState } from "react"
+import {  useEffect, useMemo, useState } from "react"
+import { Outlet,Link } from "react-router-dom"
 import './style.css'
 
 
 function Header({userId,setUserId}){
-    const inputRef = useRef()
+    const [input,setInput] = useState("")
     const [data,setData] = useState([])
-    const buttonRef = useRef()
+    const [button,setButton] = useState("Button")
+    const [isLogged,setIsLogged] = useState(false)
+
 
     
     useEffect(()=>{
@@ -13,21 +16,7 @@ function Header({userId,setUserId}){
     },[])
 
 
-    function handleLogin(){
-        const result = data.map((e)=>
-            e.email === inputRef.current.value? true:false 
-        )
-        if(result.includes(true)){
-            setUserId(data[result.indexOf(true)].id )
-            
-        }
-        else{
-            alert("invalid email!")
-            
-        }
-        inputRef.current.value = "" 
-        inputRef.current.focus()    
-    }
+
     const userName = useMemo(()=>{
         if(userId !== ""){
             return data[userId ].username 
@@ -36,37 +25,68 @@ function Header({userId,setUserId}){
     }
     ,[userId]
     )
-    const hint= useMemo(()=>{
+    useEffect( ()=>{
         if(data.length){
-            
-            return [data[0].email,data[1].email]
-        }
-        else return ""
-    }
-    ,[data]
-    )   
+            const result = data.map((e)=>
+            e.email === input? true:false 
+            )
+             if(result.includes(true)){
+                setUserId(data[result.indexOf(true)].id )
+                return  setButton("Link")
+            }
+            else{
+              return  setButton("Button")
+            }
+
+     }},[input])
+
 
 
     return (
         <div className = "cont">
         <header >
-            <div className="input">
-                <input type = "text" ref = {inputRef} onKeyDown = {(e)=>{
-                    if(e.keyCode === 13)
-                    buttonRef.current.focus()
-                }}/>
-                <button onClick = {handleLogin} ref = {buttonRef}>login</button>
+        
+        {
+            !isLogged?
+           (
+           <div className="input">
+                    <input type = "text" value = {input} onChange = {(e)=>setInput(e.target.value)} />
+                   {  
+                  button === "Link"?<Link
+                   to = '/posts'
+                   className = "button" 
+                   onClick={()=>(setIsLogged(true))}
+                   >
+                   login
+                   </Link>
+                    :<input type = "button" className = "button"onClick = {()=> alert('invalid email!')} value = "login"/>
+
+                }
+             
             </div>
-    
-            <div className = "userName">{userName} </div>
-        </header>
-        <footer className="hint">
-            {hint[0]}<br />
-            {hint[1]}
+            ):
+            (
+                <div className="userName">
+                    <p>{userName}</p>
+                    <Link to = "/" className="button" onClick = {()=> setIsLogged(false)}>logout</Link>
+                </div>
+            )
+        }
+            
+            
+        </header>      
+        <main className="main">
+            <Outlet />
+        </main>
+        <footer>
+            Emails:<br />
+            Sincere@april.biz <br />
+            Shanna@melissa.tv
         </footer>
         </div>
     )
 }
+
 
 
 export default Header
