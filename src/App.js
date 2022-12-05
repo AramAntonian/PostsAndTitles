@@ -1,9 +1,9 @@
-import Header from './components/Header.js'
-import PostAndTitles from './context/PostAndTitles.js'
-import GetPosts from './components/GetPosts.js'
-import GetTitles from './components/GetTitles.js'
+import Header from './components/Header.jsx'
+import GetPosts from './components/GetPosts.jsx'
+import GetTitles from './components/GetTitles.jsx'
 import {useState,useEffect} from "react"
-import {v4 as uuidv4} from "uuid"
+import { Route, Routes } from 'react-router-dom'
+
  
 function App() {
   const [userId,setUserId] = useState("")
@@ -13,40 +13,19 @@ function App() {
   useEffect(()=>{
     if(userId !== "")
       fetch(`https://jsonplaceholder.typicode.com/posts`).then(rep => rep.json())
-      .then(repo => setPosts(repo.filter(el =>{
-        el.key = uuidv4()
-        el.handleShow = handleShow
-        el.letShow = {
-          display: "none",
-        }
-        return el.userId === userId
-      })))
-  
-        function handleShow(event){
-          console.log(event.target.id)
-          setPosts(data => data.map((el)=>{
-              if(el.key === event.target.id)
-                  el.letShow = {
-                      display:"block",
-                  }
-              else el.letShow = {
-                display:"none",
-            }
-              return el
-          }))
-      }
-
-      
-    
+      .then(repo => setPosts(repo.filter(el => el.userId === userId
+      )))
   },[userId])
 
   return (
     <>
-      <Header userId = {userId} setUserId = {setUserId} />
-      <PostAndTitles.Provider value = {posts}>
-        <GetTitles  />
-        <GetPosts />
-      </PostAndTitles.Provider>
+    <Routes>
+      <Route path = "/" element = {<Header  userId={userId} setUserId = {setUserId}/>}>
+        <Route path= "posts" element = {<GetTitles  userId = {userId} data = {posts} />} />
+        <Route path = "posts/:id" element = {<GetPosts data = {posts}/>}/>
+      </Route>
+    </Routes>
+     
     </>
   );
 }
